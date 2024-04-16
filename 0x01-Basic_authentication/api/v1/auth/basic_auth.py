@@ -49,7 +49,7 @@ class BasicAuth(Auth):
         """Returns user email and password from Base64 decoded value"""
 
         try:
-            email, passwd = decoded_base64_authorization_header.split(":")
+            email, passwd = decoded_base64_authorization_header.split(":", 1)
             return (email, passwd)
         except:
             return (None, None)
