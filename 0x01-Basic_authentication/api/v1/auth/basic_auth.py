@@ -4,6 +4,7 @@
 from api.v1.auth.auth import Auth
 import base64
 from models.user import User
+from typing import TypeVar
 
 
 class BasicAuth(Auth):
@@ -54,21 +55,21 @@ class BasicAuth(Auth):
             return (None, None)
 
     def user_object_from_credentials(
-        self, user_email: str, user_pwd: str
-    ) -> TypeVar('User'):
-    """Return User object"""
-
-    if user_email is None or not isinstance(user_email, str):
-        return None
-
-    if user_pwd is None or not isinstance(user_pwd, str):
-        return None
-
-    try:
-        user = User.search({"email": user_email})
-        if user and user.is_valid_password(user_pwd):
-            return user
-        else:
+            self, user_email: str, user_pwd: str
+        ) -> TypeVar('User'):
+        """Return User object"""
+        
+        if user_email is None or not isinstance(user_email, str):
             return None
-    except Exception:
-        return None
+        
+        if user_pwd is None or not isinstance(user_pwd, str):
+            return None
+        
+        try:
+            user = User.search({"email": user_email})
+            if user and user.is_valid_password(user_pwd):
+                return user
+            else:
+                return None
+        except Exception:
+            return None
