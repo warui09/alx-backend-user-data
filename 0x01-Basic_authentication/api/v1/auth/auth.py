@@ -9,27 +9,29 @@ class Auth:
     """Auth class"""
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """Get authorized paths"""
+        """Check if the path requires authentication."""
         if path is None:
             return True
 
         if excluded_paths is None or len(excluded_paths) == 0:
             return True
 
-        # handle slashes at end
-        if path[-1] != "/":
-            path = path + "/"
-
+        # Check if path is in excluded_paths
         if path in excluded_paths:
             return False
+
+        # Check if path with trailing slash is in excluded_paths
+        if path.endswith("/") and path.rstrip("/") in excluded_paths:
+            return False
+
+        return True
 
     def authorization_header(self, request=None) -> str:
         """Get authorization headers"""
         if request is None:
             return None
 
-        authorization_header = request.headers.get("Authorization")
-        return authorization_header
+        return request.headers.get("Authorization", None)
 
     def current_user(self, request=None) -> TypeVar("User"):
         """Get current user"""

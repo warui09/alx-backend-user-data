@@ -44,7 +44,7 @@ def forbidden(error) -> str:
     return jsonify({"error": "Forbidden"}), 403
 
 
-'''
+
 @app.before_request
 def check_auth():
     """Check if requested path is authorized"""
@@ -56,12 +56,13 @@ def check_auth():
             "/api/v1/forbidden/"
         ]
 
-        if auth.authorization_header(request) is None:
-            return abort(401)
+        print(auth.require_auth(request.path, excluded_paths))
+        if auth.require_auth(request.path, excluded_paths):
+            if auth.authorization_header(request) is None:
+                abort(401)
+            if auth.current_user(request) is None:
+                abort(403)
 
-        if auth.current_user(request) is None:
-            return abort(403)
-'''
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
