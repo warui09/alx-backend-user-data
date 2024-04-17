@@ -21,8 +21,7 @@ class Auth:
 
         for excluded_path in excluded_paths:
             if excluded_path.endswith("*") and path.startswith(
-                excluded_path.rstrip("*")
-            ):
+                    excluded_path[:-1]):
                 return False
         return True
 
