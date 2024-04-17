@@ -13,12 +13,16 @@ class Auth:
         if path is None:
             return True
 
+        if path == "/api/v1/status":
+            return False
+
         if excluded_paths is None or len(excluded_paths) == 0:
             return True
 
         for excluded_path in excluded_paths:
             if excluded_path.endswith("*") and path.startswith(
-                    excluded_path[:-1]):
+                excluded_path.rstrip("*")
+            ):
                 return False
         return True
 
