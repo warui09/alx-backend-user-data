@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Defines class SessionAuth that inherits from Auth"""
 
-from api.v1.auth.auth import Auth
+from .auth import Auth
 from uuid import uuid4
 from models.user import User
+from flask import request
 
 
 class SessionAuth(Auth):
