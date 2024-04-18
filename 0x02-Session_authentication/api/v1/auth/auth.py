@@ -14,7 +14,7 @@ class Auth:
         if path is None:
             return True
 
-        if path == "/api/v1/status":
+        if path == "/api/v1/status" or "/api/v1/auth_session/login":
             return False
 
         if excluded_paths is None or len(excluded_paths) == 0:
