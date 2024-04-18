@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """SessionExpAuth class"""
 
-from api.v1.views.session_auth import SessionAuth
+from .session_auth import SessionAuth
 import os
 from datetime import datetime, timedelta
 
@@ -9,10 +9,10 @@ from datetime import datetime, timedelta
 class SessionExpAuth(SessionAuth):
     """Class SessionExpAuth"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Overload parent init method"""
 
-        super.__init__()
+        super().__init__()
         try:
             self.session_duration = os.getenv("SESSION_DURATION")
         except Exception:
