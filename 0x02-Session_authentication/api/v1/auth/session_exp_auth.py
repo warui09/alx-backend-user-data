@@ -52,4 +52,3 @@ class SessionExpAuth(SessionAuth):
             return None
 
         return session_dict["user_id"]
-
