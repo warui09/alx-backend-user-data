@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB module"""
 
-from sqlalchemy import create_engine, tuple_
+from sqlalchemy import create_engine, update
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -50,3 +50,12 @@ class DB:
         if user is None:
             raise NoResultFound()
         return user
+
+    def update_user(self, user_id: int, **kwargs: str) -> None:
+        """Update a user"""
+
+        try:
+            user = self.find_user_by(id=user_id)
+            self._session.query(User).filter_by(id=user_id).update(kwargs)
+        except Exception:
+            raise ValueError()
