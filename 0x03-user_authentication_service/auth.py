@@ -5,6 +5,7 @@ import bcrypt
 from db import DB
 from user import User
 from uuid import uuid4
+from typing import Optional
 from sqlalchemy.orm.exc import NoResultFound
 
 
@@ -58,4 +59,12 @@ class Auth:
             self._db.update_user(user.id, session_id=session_id)
             return session_id
         except NoResultFound:
+            return None
+
+    def get_user_from_session_id(self, session_id: str) -> Optional[User]:
+        """Get user based on provided session ID"""
+
+        try:
+            return self._db.find_user_by(session_id=session_id)
+        except Exception:
             return None
