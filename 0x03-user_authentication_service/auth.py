@@ -28,6 +28,6 @@ class Auth:
 
         except NoResultFound:
             # add user if none exists with same email
-            self._db.add_user(email, _hash_password(password))
+            return self._db.add_user(email, _hash_password(password))
 
         raise ValueError(f"User {email} already exists")
