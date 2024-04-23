@@ -43,7 +43,7 @@ class DB:
 
         return new_user
 
-    def find_user_by(self, **kwargs: str) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """Finds a user by the passed key word arguments"""
 
         # check if User has field same as supplied key, if not raise exception
@@ -56,7 +56,7 @@ class DB:
             raise NoResultFound()
         return user
 
-    def update_user(self, user_id: int, **kwargs: str) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user"""
 
         try:
