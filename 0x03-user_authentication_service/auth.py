@@ -22,10 +22,12 @@ class Auth:
     def register_user(self, email: str, password: str) -> User:
         """Register a user"""
 
-        # chech if user exists
         try:
+            # check if user exists
             self._db.find_user_by(email=email)
+
         except NoResultFound:
+            # add user if none exists with same email
             self._db.add_user(email, _hash_password(password))
 
         raise ValueError(f"User {email} already exists")
