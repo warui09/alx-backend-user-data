@@ -79,7 +79,7 @@ class Auth:
 
         try:
             user = self._db.find_user_by(email=email)
-            reset_token = str(uuid4())
+            reset_token = _generate_uuid()
             user["reset_token"] = reset_token
             return reset_token
         except NoResultFound:
