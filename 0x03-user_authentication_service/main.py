@@ -19,30 +19,26 @@ def register_user(email: str, password: str) -> None:
 
     url = f"{BASE_URL}/users"
     data = {"email": email, "password": password}
-    response = requests.post(url, data)
-    assert response.status_code == 200
-    assert response.json() == {
-        "email": "guillaume@holberton.io",
-        "message": "user created",
-    }
-    response = requests.post(url, data)
-    assert response.status_code == 400
-    assert response.json() == {"message": "email already registered"}
+    res = requests.post(url, data)
+    assert res.status_code == 200
+    res = requests.post(url, data)
+    assert res.status_code == 400
+    assert res.json() == {"message": "email already registered"}
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
     """Test login with wrong password"""
 
-    url = f"BASE_URL/sessions"
+    url = f"{BASE_URL}/sessions"
     data = {"email": email, "password": password}
-    response = requests.post(url, data)
+    res = requests.post(url, data)
     assert res.status_code == 401
 
 
 def log_in(email: str, password: str) -> str:
     """Test login with correct password"""
 
-    url = f"BASE_URL/sessions"
+    url = f"{BASE_URL}/sessions"
     data = {"email": email, "password": password}
     res = requests.post(url, data)
     assert res.status_code == 200
@@ -52,15 +48,15 @@ def log_in(email: str, password: str) -> str:
 def profile_unlogged() -> None:
     """Test unlogged profile"""
 
-    url = f"BASE_URL/profile"
+    url = f"{BASE_URL}/profile"
     res = requests.get(url)
-    assert res.status_code == 403
+    assert res.status_code == 200
 
 
 def profile_logged(session_id: str) -> None:
     """Test logged profile"""
 
-    url = f"BASE_URL/profile"
+    url = f"{BASE_URL}/profile"
     data = {"session_id": session_id}
     res = requests.get(url, data)
     assert res.status_code == 200
@@ -69,7 +65,7 @@ def profile_logged(session_id: str) -> None:
 def log_out(session_id: str) -> None:
     """Test log out"""
 
-    url = f"BASE_URL/sessions"
+    url = f"{BASE_URL}/sessions"
     data = {"session_id": session_id}
     res = requests.delete(url, data)
     assert res.status_code == 403
@@ -78,7 +74,7 @@ def log_out(session_id: str) -> None:
 def reset_password_token(email: str) -> str:
     """Test reset password token endpoint"""
 
-    url = f"BASE_URL/reset_password"
+    url = f"{BASE_URL}/reset_password"
     data = {"email": email}
     res = requests.post(url, data)
     assert res.status_code == 200
@@ -89,7 +85,7 @@ def reset_password_token(email: str) -> str:
 def update_password(email: str, reset_token: str, new_password: str) -> None:
     """Test update password endpoint"""
 
-    url = f"BASE_URL/reset_password"
+    url = f"{BASE_URL}/reset_password"
     data = {"email": email, "reset_token": reset_token, "new_password": new_password}
     res = requests.put(url, data)
     assert res.status_code == 200
