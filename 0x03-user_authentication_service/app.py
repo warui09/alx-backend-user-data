@@ -51,6 +51,7 @@ def logout() -> str:
 
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
+    print(user)
     if user is None:
         abort(403)
     AUTH.destroy_session(user.id)
@@ -78,6 +79,19 @@ def get_reset_password_token() -> str:
         return jsonify({"email": email, "reset_token": reset_token}), 200
     except ValueError:
         abort(403)
+
+@app.route("/reset_password", methods=["PUT"], strict_slashes=False)
+def update_password() -> str:
+    """Update user password"""
+
+    email = request.cookies.get("email")
+    reset_token = request.cookies.get("reset_token")
+    new_password = request.cookies.get("new_password")
+    try:
+        AUTH.update_password(reset_token, new_password)
+        return jsonify({"email": email, "message": "Password updated"}), 200
+    except ValueError:
+        abort (403)
 
 
 if __name__ == "__main__":
